@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BOSS BIRYANI — E-Menu | Clifton, Karachi</title>
+<meta name="theme-color" content="#670705">
+<style>
+:root{--red:#a91510;--yellow:#ffc928;--card:#fffdf7;--ink:#24130d;--muted:#6f5145;--line:#ead9bd}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:linear-gradient(135deg,#8e0e0c 0%,#c52213 36%,#f6bd1b 72%,#fff0a6 100%);background-attachment:fixed;min-height:100vh}
+header{position:sticky;top:0;z-index:20;background:rgba(103,7,5,.96);color:#fff;box-shadow:0 4px 18px #0004}
+.top{max-width:1180px;margin:auto;padding:14px 18px;display:flex;align-items:center;gap:14px}
+.brand{font-weight:900;letter-spacing:1px;font-size:24px;line-height:1}
+.brand small{display:block;color:#ffd83b;font-size:11px;letter-spacing:2px;margin-top:4px}
+.btn{border:0;border-radius:12px;padding:11px 14px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.yellow{background:var(--yellow);color:#4d1708}.btn.green{background:#168447;color:#fff}
+.top .btn{margin-left:auto}
+.chips{position:sticky;top:66px;z-index:15;display:flex;gap:8px;overflow-x:auto;padding:10px 18px;max-width:1180px;margin:auto;scrollbar-width:none}
+.chips a{flex:none;background:#fffdf0;color:#6b0f0a;font-weight:800;font-size:13px;text-decoration:none;padding:9px 15px;border-radius:99px;box-shadow:0 3px 10px #0003}
+.container{max-width:1180px;margin:auto;padding:10px 18px 60px}
+.searchwrap input{width:100%;border:1px solid #dcc8a6;border-radius:99px;padding:14px 20px;font:inherit;font-weight:700;box-shadow:0 6px 18px #0003;margin:0 0 6px;background:#fff}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px;align-items:center}
+.filters button,.filters select{border:0;border-radius:99px;padding:9px 15px;font-weight:800;background:#fffdf0;color:#6b0f0a;cursor:pointer;font-size:13px}
+.filters button.on{background:var(--yellow);box-shadow:0 0 0 2px #6b0f0a}
+.section{margin-top:28px;scroll-margin-top:130px}
+.section-title{display:flex;align-items:center;gap:10px;margin:0 0 13px;color:#fff;font-size:25px}
+.section-title:after{content:'';height:3px;flex:1;background:#ffffff55;border-radius:99px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 10px 24px #5e210f20;opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s}
+.card.in{opacity:1;transform:none}.card.in:hover{transform:translateY(-3px)}
+.deal{border-top:4px solid var(--yellow)}
+.pic{height:145px;background:radial-gradient(circle at 35% 35%,#ffe36c 0 12%,transparent 13%),linear-gradient(135deg,#8d160d,#f3a916);display:flex;align-items:center;justify-content:center;position:relative}
+.pic img{width:100%;height:100%;object-fit:cover}
+.pic svg{height:132px;width:auto;max-width:92%;filter:drop-shadow(0 6px 8px #0004)}
+.pic span{position:absolute;bottom:8px;right:10px;background:#fffdf0dd;border-radius:999px;padding:4px 8px;font-size:10px;font-weight:900}
+.content{padding:15px}.content h3{margin:0 0 6px;font-size:18px}
+.desc{font-size:13px;color:var(--muted);line-height:1.45;margin-bottom:10px}
+.price{font-size:20px;font-weight:950;color:var(--red)}
+.serves{display:inline-block;background:#fff1c2;color:#7a5a00;font-size:12px;font-weight:800;border-radius:99px;padding:3px 10px;margin-bottom:8px}
+.order{display:block;text-align:center;width:100%;margin-top:11px;background:var(--red);color:#fff;border-radius:11px;padding:11px;font-weight:900;text-decoration:none}
+#noRes{display:none;color:#fff;font-weight:800;font-size:18px}
+footer{max-width:1180px;margin:auto;padding:10px 18px 50px;color:#fff}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.brand{font-size:20px}}
+</style></head>
+<body>
+<header><div class="top"><div class="brand">BOSS BIRYANI<small>CLIFTON • KARACHI</small></div><a class="btn yellow" id="waTop" target="_blank" rel="noopener noreferrer">💬 Order on WhatsApp</a></div></header>
+<nav class="chips" id="chips"></nav>
+<main class="container" id="menu">
+<div class="searchwrap"><input id="search" type="search" placeholder="🔍 Search biryani, pulao, raita..." oninput="filt()"></div>
+<div class="filters"><button class="on" onclick="setF('all',this)">All</button><button onclick="setF('chicken',this)">🍗 Chicken</button><button onclick="setF('beef',this)">🥩 Beef</button><button onclick="setF('aaloo',this)">🥔 Aaloo</button>
+<select onchange="sortM(this.value)"><option value="def">Sort: Default</option><option value="lo">Price: Low to High</option><option value="hi">Price: High to Low</option></select></div>
+<div id="menuRoot"></div><p id="noRes">No items found.</p>
+</main>
+<footer><h2>BOSS BIRYANI</h2><p>Shop No: 10 GC#1, Mehran Heights Block 8 Clifton, Karachi.</p><p>☎️ +92 336 1491496</p></footer>
+<script>
+const CONFIG={wa:'923361491496',popular:[]};
+const sections=[
+{title:'Highlights • Rice',items:[
+['Beef Matka White Biryani — Half (2-3 Person)',2150,'🥘'],['Beef Matka White Biryani — Full (5-6 Person)',3900,'🥘'],['Beef Matka Biryani — Full (5-6 Person)',3900,'🍲'],['Beef Matka Biryani — Half (2-3 Person)',2150,'🍲'],['Chicken Matka Biryani — Full (5-6 Person)',3200,'🍗'],['Chicken Matka Biryani — Half (2-3 Person)',1600,'🍗'],['Chicken Biryani — Single',400,'🍚'],['Chicken Biryani — Double',750,'🍚'],['Beef Biryani — Single',520,'🥩'],['Beef Biryani — Double',860,'🥩'],['Aaloo Biryani — Single',230,'🥔'],['Aaloo Biryani — Double',350,'🥔'],['Beef Pulao — Single',520,'🍛'],['Beef Pulao — Double',860,'🍛']]},
+{title:'Beverages',items:[['Aquafina Water — 345 ml',130,'💧']]},
+{title:'Deals',items:[['Deal 1 — Single biryani with 345 ml soft drink & raita',520,'🔥'],['Deal 2 — Double biryani with 345 ml soft drink & raita',850,'🔥'],['Deal 3 — Single pulao with 345 ml soft drink & raita',640,'🔥'],['Deal 4 — Double pulao with 345 ml soft drink & raita',970,'🔥'],['Deal 5 — Single Beef Biryani with raita and 345ml soft drink',640,'🔥']]},
+{title:'Extra',items:[['Raita — Creamy yogurt with fresh cucumbers, tomatoes and aromatic spices',60,'🥣'],['Boss Special Raita — Cool yogurt with fresh mint leaves and aromatic spices',150,'🌿'],['Fried Onion — Crispy golden fried onions',50,'🧅'],['Salad — Fresh garden salad with tomatoes, cucumbers and onions',50,'🥗'],['Boss Special Green Salad — Fresh crisp green salad with mixed vegetables',100,'🥗']]},
+{title:'Desserts',items:[['Kheer — Creamy rice pudding with roasted nuts and cardamom',150,'🍮'],['Zarda',175,'🍚'],['Soft drink — Cola Next / Mirinda / Pepsi / 7UP / Pakola',0,'🥤']]}
+];
+function slug(n){const p=n.split(' — '),b=p[0]+(p[1]&&p[1].length<=25?' '+p[1]:'');return b.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
+function serves(t){const m=t.match(/\((\d-\d) Person\)/);return m?`<span class="serves">👥 Serves ${m[1]}</span>`:''}
+function art(n){n=n.toLowerCase();
+const S=b=>`<svg viewBox="0 0 140 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${n.split(' — ')[0]}">${b}</svg>`;
+const dots=(c,k,x0,y0,w,h,r)=>{let o='';for(let i=0;i<k;i++)o+=`<circle cx="${x0+(i*37)%w}" cy="${y0+(i*23)%h}" r="${r||2+i%2}" fill="${c[i%c.length]}"/>`;return o};
+const steam='<path d="M55 22c-6-8 6-10 0-18M72 24c-6-8 6-10 0-18M89 22c-6-8 6-10 0-18" stroke="#fff" stroke-width="3" fill="none" opacity=".65" stroke-linecap="round"/>';
+const plate='<ellipse cx="70" cy="90" rx="60" ry="14" fill="#fff"/><ellipse cx="70" cy="87" rx="48" ry="9" fill="#efe6d3"/>';
+const top=t=>t==='chicken'?'<ellipse cx="58" cy="54" rx="14" ry="9" fill="#b8651f" transform="rotate(-25 58 54)"/><rect x="66" y="42" width="18" height="5" rx="2.5" fill="#f4ead2" transform="rotate(-25 66 44)"/>':t==='beef'?'<rect x="46" y="52" width="22" height="14" rx="6" fill="#5b2a14"/><rect x="74" y="46" width="20" height="13" rx="6" fill="#6e3419"/>':t==='aaloo'?'<rect x="46" y="52" width="16" height="14" rx="4" fill="#e3b04b" stroke="#a9701c" stroke-width="2"/><rect x="72" y="46" width="16" height="14" rx="4" fill="#e3b04b" stroke="#a9701c" stroke-width="2"/>':'';
+const rice=(c,sp)=>`<path d="M22 86c4-36 24-58 48-58s44 22 48 58z" fill="${c}"/>${dots(sp,16,34,44,72,34)}`;
+const bowl=c=>`<path d="M20 56h100c0 30-22 42-50 42S20 86 20 56z" fill="#fff"/>${c}`;
+const can='<rect x="52" y="18" width="40" height="74" rx="9" fill="#d52b18"/><rect x="52" y="18" width="40" height="10" rx="4" fill="#cfcfcf"/><path d="M52 50q20-14 40 0v16q-20-14-40 0z" fill="#fff" opacity=".9"/>';
+const meat=n.includes('chicken')?'chicken':n.includes('beef')?'beef':n.includes('aaloo')?'aaloo':'';
+const white=n.includes('white'),pulao=n.includes('pulao');
+const rc=white?'#f6efdc':pulao?'#d9b27a':'#e0a43a',sp=white?['#e9dcc0']:pulao?['#8a5a2b','#f6efdc']:['#c4571a','#3f8f3a','#f6efdc'];
+if(n.includes('water'))return S('<rect x="56" y="24" width="28" height="72" rx="10" fill="#7fd0f5"/><rect x="62" y="12" width="16" height="13" rx="3" fill="#2a7fb8"/><rect x="56" y="50" width="28" height="22" fill="#fff"/><text x="70" y="65" font-size="9" text-anchor="middle" fill="#2a7fb8" font-weight="700">WATER</text>');
+if(n.startsWith('soft drink'))return S(can);
+if(n.startsWith('deal'))return S(`<g transform="translate(-16 4) scale(.92)">${plate}${rice(rc,sp)}${top(meat)}</g><g transform="translate(70 22) scale(.7)">${can}</g>`);
+if(n.includes('raita'))return S(bowl('<ellipse cx="70" cy="58" rx="50" ry="9" fill="#fffaf0"/>'+dots(['#4caf50','#e53935'],n.includes('special')?16:7,38,52,64,8)));
+if(n.includes('onion'))return S(bowl(Array.from({length:14},(_,i)=>`<path d="M${30+i*6} 60q6-${16+i%3*5} 10-4" stroke="#d9951b" stroke-width="4" fill="none" stroke-linecap="round"/>`).join('')));
+if(n.includes('salad'))return S(bowl(dots(['#4caf50','#e53935','#a5d6a7'],18,32,38,72,20,6)));
+if(n.includes('kheer'))return S(bowl('<ellipse cx="70" cy="58" rx="50" ry="10" fill="#fff3d6"/>'+dots(['#c89b5a','#8bb26a'],10,40,52,60,8)));
+if(n.includes('zarda'))return S(plate+rice('#f0a020',['#e91e63','#4caf50','#fff'])+steam);
+if(n.includes('matka'))return S(`<path d="M32 52c-10 10-12 40 4 50h68c16-10 14-40 4-50z" fill="#8a3b12"/><ellipse cx="70" cy="52" rx="40" ry="9" fill="#a24a1a"/><path d="M34 54c10-30 62-30 72 0z" fill="${rc}"/>${dots(sp,10,44,36,52,14)}${top(meat)}<path d="M40 82h60" stroke="#f3a916" stroke-width="3" stroke-dasharray="6 5"/>${steam}`);
+return S(plate+rice(rc,sp)+top(meat)+steam)}
+let FLT='all';const root=document.getElementById('menuRoot');
+function waLink(n){return 'https://wa.me/'+CONFIG.wa+'?text='+encodeURIComponent('Assalam o Alaikum, I would like to order: '+n)}
+function render(){root.innerHTML=sections.map((s,si)=>`<section class="section" id="sec${si}"><h2 class="section-title">${s.title}</h2><div class="grid">${s.items.map((it,i)=>{const soft=it[0].startsWith('Soft drink');return `<article class="card ${s.title==='Deals'?'deal':''}" data-p="${it[1]}" data-i="${i}"><div class="pic">${it[3]?`<img src="${it[3]}" alt="${it[0]}" loading="lazy" decoding="async" onerror="this.outerHTML=art(this.alt)">`:`<img src="photos/${slug(it[0])}.jpg" alt="${it[0]}" onerror="this.outerHTML=art(this.alt)">`}<span>${s.title.split(' • ')[0].toUpperCase()}</span></div><div class="content"><h3>${it[0]}</h3>${serves(it[0])}${CONFIG.popular.some(p=>it[0].startsWith(p))?'<span class="serves" style="background:#ffd9d4;color:#a91510;margin-left:6px">🔥 Popular</span>':''}<div class="desc">${s.title==='Extra'?'Freshly prepared accompaniment.':soft?'Cola Next, Mirinda, Pepsi, 7UP or Pakola.':'Available in Spicy, Mild or Extra Spicy.'}</div><div class="price">${it[1]>0?'Rs '+it[1]:'Choose your drink'}</div><a class="order" target="_blank" rel="noopener noreferrer" href="${waLink(it[0])}">Order on WhatsApp</a></div></article>`}).join('')}</div></section>`).join('');observe()}
+function observe(){const cards=document.querySelectorAll('.card');if(window.IntersectionObserver){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.05});cards.forEach(c=>io.observe(c))}else cards.forEach(c=>c.classList.add('in'))}
+function setF(f,b){FLT=f;document.querySelectorAll('.filters button').forEach(x=>x.classList.toggle('on',x===b));filt()}
+function filt(){const q=document.getElementById('search').value.toLowerCase().trim();let any=0;document.querySelectorAll('.section').forEach(sec=>{let v=0;sec.querySelectorAll('.card').forEach(c=>{const t=c.querySelector('h3').textContent.toLowerCase(),ok=t.includes(q)&&(FLT==='all'||t.includes(FLT));c.style.display=ok?'':'none';if(ok)v++});sec.style.display=v?'':'none';any+=v});document.getElementById('noRes').style.display=any?'none':'block'}
+function sortM(v){document.querySelectorAll('.grid').forEach(g=>{[...g.children].sort((a,b)=>v==='def'?a.dataset.i-b.dataset.i:v==='lo'?a.dataset.p-b.dataset.p:b.dataset.p-a.dataset.p).forEach(c=>g.appendChild(c))})}
+render();
+document.getElementById('chips').innerHTML=sections.map((x,i)=>`<a href="#sec${i}">${x.title.split(' • ').pop()}</a>`).join('');
+document.getElementById('waTop').href='https://wa.me/'+CONFIG.wa;
+</script>
+</body></html>
